@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SearchAnimView">
+        <attr format="reference" name="FlyJFish_searchAnim_resource"/>
+        <attr format="enum" name="FlyJFish_searchAnim_DrawPathType">
+            <enum name="Circle" value="0"/>
+            <enum name="Read" value="1"/>
+            <enum name="Serpentine" value="2"/>
+        </attr>
+        <attr format="dimension" name="FlyJFish_searchAnim_paddingLeft"/>
+        <attr format="dimension" name="FlyJFish_searchAnim_paddingTop"/>
+        <attr format="dimension" name="FlyJFish_searchAnim_paddingRight"/>
+        <attr format="dimension" name="FlyJFish_searchAnim_paddingBottom"/>
+        <attr format="dimension" name="FlyJFish_searchAnim_paddingStart"/>
+        <attr format="dimension" name="FlyJFish_searchAnim_paddingEnd"/>
+
+        <attr format="dimension" name="FlyJFish_searchAnim_radius"/>
+
+        <attr format="float" name="FlyJFish_searchAnim_resource_percentLeft"/>
+        <attr format="float" name="FlyJFish_searchAnim_resource_percentTop"/>
+        <attr format="float" name="FlyJFish_searchAnim_resource_percentRight"/>
+        <attr format="float" name="FlyJFish_searchAnim_resource_percentBottom"/>
+    </declare-styleable>
+</resources>

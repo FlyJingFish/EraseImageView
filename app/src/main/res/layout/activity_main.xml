@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/demoo" />
+
+    <com.flyjingfish.searchanimviewlib.SearchAnimView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_search"
+        app:FlyJFish_searchAnim_DrawPathType="Serpentine"
+        app:FlyJFish_searchAnim_paddingTop="10dp"
+        app:FlyJFish_searchAnim_paddingBottom="16dp"
+        app:FlyJFish_searchAnim_paddingLeft="10dp"
+        app:FlyJFish_searchAnim_paddingRight="16dp"
+        app:FlyJFish_searchAnim_paddingStart="10dp"
+        app:FlyJFish_searchAnim_paddingEnd="16dp"
+        app:FlyJFish_searchAnim_radius="50dp"
+        app:FlyJFish_searchAnim_resource="@drawable/ic_search"
+        app:FlyJFish_searchAnim_resource_percentBottom="0.85"
+        app:FlyJFish_searchAnim_resource_percentLeft="0.0625"
+        app:FlyJFish_searchAnim_resource_percentRight="0.85"
+        app:FlyJFish_searchAnim_resource_percentTop="0.0625">
+
+    </com.flyjingfish.searchanimviewlib.SearchAnimView>
+</FrameLayout>
