@@ -8,59 +8,69 @@ import java.util.Locale;
 
 public class BaseAnim {
 
-    protected float paddingLeft;
-    protected float paddingTop;
-    protected float paddingRight;
-    protected float paddingBottom;
-    protected SearchAnimView view;
-    protected float searchRadius;
+    protected float mPaddingLeft;
+    protected float mPaddingTop;
+    protected float mPaddingRight;
+    protected float mPaddingBottom;
+    protected SearchAnimView mView;
+    protected float mSearchRadius;
     protected SearchTypeEvaluator mTypeEvaluator;
     protected SearchTypeEvaluator getTypeEvaluator() {
         return mTypeEvaluator;
     }
 
-    protected BaseAnim(SearchAnimView view, float searchRadius,
-                       float animPaddingLeft,float animPaddingTop,float animPaddingRight,
-                       float animPaddingBottom,float animPaddingStart,float animPaddingEnd) {
-        this.view = view;
-        this.searchRadius = searchRadius;
-        setPadding(animPaddingLeft, animPaddingTop, animPaddingRight, animPaddingBottom, animPaddingStart, animPaddingEnd);
+    protected BaseAnim(SearchAnimView view) {
+        this.mView = view;
+        this.mSearchRadius = view.getSearchRadius();
+        setPadding();
     }
 
-    protected void setPadding(float animPaddingLeft,float animPaddingTop,float animPaddingRight,
-                       float animPaddingBottom,float animPaddingStart,float animPaddingEnd) {
+    public void setSearchRadius() {
+        this.mSearchRadius = mView.getSearchRadius();
+        if (mTypeEvaluator != null){
+            mTypeEvaluator.update();
+        }
+    }
+
+    protected void setPadding() {
+        float animPaddingLeft = mView.getAnimPaddingLeft();
+        float animPaddingTop = mView.getAnimPaddingTop();
+        float animPaddingRight = mView.getAnimPaddingRight();
+        float animPaddingBottom = mView.getAnimPaddingBottom();
+        float animPaddingStart = mView.getAnimPaddingStart();
+        float animPaddingEnd = mView.getAnimPaddingEnd();
 
         boolean isRtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == LayoutDirection.RTL;
 
-        paddingTop = animPaddingTop;
-        paddingBottom = animPaddingBottom;
+        mPaddingTop = animPaddingTop;
+        mPaddingBottom = animPaddingBottom;
 
         if (isRtl){
             if (animPaddingEnd != 0){
-                this.paddingLeft = animPaddingEnd;
+                this.mPaddingLeft = animPaddingEnd;
             }else {
-                this.paddingLeft = animPaddingLeft;
+                this.mPaddingLeft = animPaddingLeft;
             }
         }else {
             if (animPaddingStart != 0){
-                this.paddingLeft = animPaddingStart;
+                this.mPaddingLeft = animPaddingStart;
             }else {
-                this.paddingLeft = animPaddingLeft;
+                this.mPaddingLeft = animPaddingLeft;
             }
 
         }
 
         if (isRtl){
             if (animPaddingStart != 0){
-                this.paddingRight = animPaddingStart;
+                this.mPaddingRight = animPaddingStart;
             }else {
-                this.paddingRight = animPaddingRight;
+                this.mPaddingRight = animPaddingRight;
             }
         }else {
             if (animPaddingEnd != 0){
-                this.paddingRight = animPaddingEnd;
+                this.mPaddingRight = animPaddingEnd;
             }else {
-                this.paddingRight = animPaddingRight;
+                this.mPaddingRight = animPaddingRight;
             }
 
         }

@@ -3,15 +3,13 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class SerpentineAnim extends BaseAnim {
-    private SerpentineAnim(SearchAnimView view, float searchRadius,float animPaddingLeft,float animPaddingTop,float animPaddingRight,
-                           float animPaddingBottom,float animPaddingStart,float animPaddingEnd) {
-        super(view, searchRadius,animPaddingLeft,animPaddingTop,animPaddingRight,animPaddingBottom,animPaddingStart,animPaddingEnd);
+    private SerpentineAnim(SearchAnimView view) {
+        super(view);
         mTypeEvaluator = new SerpentineTypeEvaluator();
     }
 
-    public static BaseAnim getInstance(SearchAnimView view, float searchRadius,float animPaddingLeft,float animPaddingTop,float animPaddingRight,
-                                       float animPaddingBottom,float animPaddingStart,float animPaddingEnd){
-        return new SerpentineAnim(view,searchRadius,animPaddingLeft,animPaddingTop,animPaddingRight,animPaddingBottom,animPaddingStart,animPaddingEnd);
+    public static BaseAnim getInstance(SearchAnimView view){
+        return new SerpentineAnim(view);
     }
 
     private class SerpentineTypeEvaluator extends SearchTypeEvaluator {
@@ -32,33 +30,33 @@ public class SerpentineAnim extends BaseAnim {
             int rowLength = (int) (current % row1Length);
             int x;
             int y;
-            int lineCenterY = (int) (searchRadius + row * lineHeight);
+            int lineCenterY = (int) (mSearchRadius + row * lineHeight);
             if (rowLength <= pathWidth) {
                 y = lineCenterY;
-                x = (int) (searchRadius + paddingLeft+ rowLength);
+                x = (int) (mSearchRadius + mPaddingLeft + rowLength);
                 if (row % 2 != 0) {
                     x = (int) (width - x);
                 }
             } else {
                 y = (int) (lineCenterY + rowLength - pathWidth);
                 if (row % 2 != 0) {
-                    x = (int) ((int) searchRadius + paddingLeft);
+                    x = (int) ((int) mSearchRadius + mPaddingLeft);
                 } else {
-                    x = (int) (width - paddingRight - searchRadius);
+                    x = (int) (width - mPaddingRight - mSearchRadius);
                 }
             }
-            y += paddingTop;
+            y += mPaddingTop;
             return new Point(x, y);
         }
 
         @Override
         public void update() {
-            this.width = view.getWidth();
-            float height = view.getHeight();
-            pathWidth = width - searchRadius * 2 - paddingLeft - paddingRight;
-            float pathHeight = height - searchRadius * 2- paddingTop- paddingBottom;
-            int rows = (int) ((height - paddingLeft - paddingRight) / (searchRadius * 2));
-            if (height - paddingLeft - paddingRight - rows * (searchRadius * 2) > searchRadius) {
+            this.width = mView.getWidth();
+            float height = mView.getHeight();
+            pathWidth = width - mSearchRadius * 2 - mPaddingLeft - mPaddingRight;
+            float pathHeight = height - mSearchRadius * 2- mPaddingTop - mPaddingBottom;
+            int rows = (int) ((height - mPaddingLeft - mPaddingRight) / (mSearchRadius * 2));
+            if (height - mPaddingLeft - mPaddingRight - rows * (mSearchRadius * 2) > mSearchRadius) {
                 rows += 1;
             }
             lineHeight = pathHeight / (rows - 1);

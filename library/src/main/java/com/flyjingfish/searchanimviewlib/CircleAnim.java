@@ -3,15 +3,13 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class CircleAnim extends BaseAnim{
-    private CircleAnim(SearchAnimView view, float searchRadius,float animPaddingLeft,float animPaddingTop,float animPaddingRight,
-                       float animPaddingBottom,float animPaddingStart,float animPaddingEnd) {
-        super(view, searchRadius,animPaddingLeft,animPaddingTop,animPaddingRight,animPaddingBottom,animPaddingStart,animPaddingEnd);
+    private CircleAnim(SearchAnimView view) {
+        super(view);
         mTypeEvaluator = new CircleTypeEvaluator();
     }
 
-    public static BaseAnim getInstance(SearchAnimView view, float searchRadius,float animPaddingLeft,float animPaddingTop,float animPaddingRight,
-                                       float animPaddingBottom,float animPaddingStart,float animPaddingEnd){
-        return new CircleAnim(view,searchRadius,animPaddingLeft,animPaddingTop,animPaddingRight,animPaddingBottom,animPaddingStart,animPaddingEnd);
+    public static BaseAnim getInstance(SearchAnimView view){
+        return new CircleAnim(view);
     }
     private class CircleTypeEvaluator extends SearchTypeEvaluator {
         private float radius;
@@ -32,16 +30,16 @@ public class CircleAnim extends BaseAnim{
 
         @Override
         public void update() {
-            float width = view.getWidth();
-            float height = view.getHeight();
+            float width = mView.getWidth();
+            float height = mView.getHeight();
             if (width < height){
-                radius = (width - paddingLeft - paddingRight)/2 - searchRadius;
-                centerX = paddingLeft + radius + searchRadius;
-                centerY = (height - paddingTop - paddingBottom)/2 - paddingTop;
+                radius = (width - mPaddingLeft - mPaddingRight)/2 - mSearchRadius;
+                centerX = mPaddingLeft + radius + mSearchRadius;
+                centerY = (height - mPaddingTop - mPaddingBottom)/2 - mPaddingTop;
             }else {
-                radius = (height - paddingTop - paddingBottom)/2 - searchRadius;
-                centerX = (width - paddingLeft - paddingRight)/2 - paddingLeft;
-                centerY = paddingTop + radius + searchRadius;
+                radius = (height - mPaddingTop - mPaddingBottom)/2 - mSearchRadius;
+                centerX = (width - mPaddingLeft - mPaddingRight)/2 - mPaddingLeft;
+                centerY = mPaddingTop + radius + mSearchRadius;
             }
         }
     }
