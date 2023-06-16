@@ -2,14 +2,10 @@ package com.flyjingfish.searchanimviewlib;
 
 import android.graphics.Point;
 
-public class ReadAnim  extends BaseAnim{
-    private ReadAnim(SearchAnimView view) {
+public class ReadAnim extends BaseAnim {
+    public ReadAnim(SearchAnimView view) {
         super(view);
         mTypeEvaluator = new ReadTypeEvaluator();
-    }
-
-    public static BaseAnim getInstance(SearchAnimView view){
-        return new ReadAnim(view);
     }
 
     private class ReadTypeEvaluator extends SearchTypeEvaluator {
@@ -19,8 +15,19 @@ public class ReadAnim  extends BaseAnim{
         private float width;
         private float lineHeight;
 
-        public ReadTypeEvaluator() {
-            update();
+        @Override
+        public void update() {
+            this.radius = mSearchRadius;
+            this.width = mView.getWidth();
+            float height = mView.getHeight();
+            pathWidth = width - radius * 2 - mPaddingLeft - mPaddingRight;
+            float pathHeight = height - radius * 2 - mPaddingTop - mPaddingBottom;
+            int rows = (int) ((height - mPaddingLeft - mPaddingRight) / (radius * 2));
+            if (height - mPaddingLeft - mPaddingRight - rows * (radius * 2) > radius) {
+                rows += 1;
+            }
+            lineHeight = pathHeight / (rows - 1);
+            totalLength = rows * pathWidth;
         }
 
         @Override
@@ -33,19 +40,5 @@ public class ReadAnim  extends BaseAnim{
             return new Point(x, y);
         }
 
-        @Override
-        public void update() {
-            this.radius = mSearchRadius;
-            this.width = mView.getWidth();
-            float height = mView.getHeight();
-            pathWidth = width - radius * 2 - mPaddingLeft - mPaddingRight;
-            float pathHeight = height - radius * 2- mPaddingTop - mPaddingBottom;
-            int rows = (int) ((height - mPaddingLeft - mPaddingRight) / (radius * 2));
-            if (height - mPaddingLeft - mPaddingRight - rows * (radius * 2) > radius) {
-                rows += 1;
-            }
-            lineHeight = pathHeight / (rows - 1);
-            totalLength = rows * pathWidth;
-        }
     }
 }

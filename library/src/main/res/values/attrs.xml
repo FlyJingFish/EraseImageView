@@ -6,6 +6,7 @@
             <enum name="Circle" value="0" />
             <enum name="Read" value="1" />
             <enum name="Serpentine" value="2" />
+            <enum name="Lightning" value="3" />
         </attr>
         <attr name="FlyJFish_searchAnim_paddingLeft" format="dimension" />
         <attr name="FlyJFish_searchAnim_paddingTop" format="dimension" />
@@ -28,5 +29,7 @@
             <enum name="reverse" value="2" />
         </attr>
         <attr name="FlyJFish_searchAnim_autoStart" format="boolean" />
+        <attr name="FlyJFish_searchAnim_eraseMode" format="boolean" />
+        <attr name="FlyJFish_searchAnim_handMode" format="boolean" />
     </declare-styleable>
 </resources>

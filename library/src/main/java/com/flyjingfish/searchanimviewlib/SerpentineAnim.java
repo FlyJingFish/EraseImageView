@@ -3,13 +3,9 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class SerpentineAnim extends BaseAnim {
-    private SerpentineAnim(SearchAnimView view) {
+    public SerpentineAnim(SearchAnimView view) {
         super(view);
         mTypeEvaluator = new SerpentineTypeEvaluator();
-    }
-
-    public static BaseAnim getInstance(SearchAnimView view){
-        return new SerpentineAnim(view);
     }
 
     private class SerpentineTypeEvaluator extends SearchTypeEvaluator {
@@ -19,8 +15,19 @@ public class SerpentineAnim extends BaseAnim {
         private float width;
         private float lineHeight;
 
-        public SerpentineTypeEvaluator() {
-            update();
+        @Override
+        public void update() {
+            this.width = mView.getWidth();
+            float height = mView.getHeight();
+            pathWidth = width - mSearchRadius * 2 - mPaddingLeft - mPaddingRight;
+            float pathHeight = height - mSearchRadius * 2 - mPaddingTop - mPaddingBottom;
+            int rows = (int) ((height - mPaddingLeft - mPaddingRight) / (mSearchRadius * 2));
+            if (height - mPaddingLeft - mPaddingRight - rows * (mSearchRadius * 2) > mSearchRadius) {
+                rows += 1;
+            }
+            lineHeight = pathHeight / (rows - 1);
+            row1Length = pathWidth + lineHeight;
+            totalLength = (int) (rows * row1Length - lineHeight);
         }
 
         @Override
@@ -35,7 +42,7 @@ public class SerpentineAnim extends BaseAnim {
                 y = lineCenterY;
                 x = (int) (mSearchRadius + mPaddingLeft + rowLength);
                 if (row % 2 != 0) {
-                    x = (int) (width - x);
+                    x = (int) (width - x - (mPaddingRight - mPaddingLeft));
                 }
             } else {
                 y = (int) (lineCenterY + rowLength - pathWidth);
@@ -49,20 +56,7 @@ public class SerpentineAnim extends BaseAnim {
             return new Point(x, y);
         }
 
-        @Override
-        public void update() {
-            this.width = mView.getWidth();
-            float height = mView.getHeight();
-            pathWidth = width - mSearchRadius * 2 - mPaddingLeft - mPaddingRight;
-            float pathHeight = height - mSearchRadius * 2- mPaddingTop - mPaddingBottom;
-            int rows = (int) ((height - mPaddingLeft - mPaddingRight) / (mSearchRadius * 2));
-            if (height - mPaddingLeft - mPaddingRight - rows * (mSearchRadius * 2) > mSearchRadius) {
-                rows += 1;
-            }
-            lineHeight = pathHeight / (rows - 1);
-            row1Length = pathWidth + lineHeight;
-            totalLength = (int) (rows * row1Length - lineHeight);
-        }
+
     }
 
 }
