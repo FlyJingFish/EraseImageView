@@ -12,14 +12,14 @@ public class BaseAnim {
     protected float mPaddingTop;
     protected float mPaddingRight;
     protected float mPaddingBottom;
-    protected EraseView mView;
+    protected EraseImageView mView;
     protected float mSearchRadius;
     protected SearchTypeEvaluator mTypeEvaluator;
     protected SearchTypeEvaluator getTypeEvaluator() {
         return mTypeEvaluator;
     }
 
-    protected BaseAnim(EraseView view) {
+    protected BaseAnim(EraseImageView view) {
         this.mView = view;
         this.mSearchRadius = view.getEraseRadius();
         setPadding();

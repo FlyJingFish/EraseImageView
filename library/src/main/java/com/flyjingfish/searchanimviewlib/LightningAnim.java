@@ -3,7 +3,7 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class LightningAnim extends BaseAnim{
-    protected LightningAnim(EraseView view) {
+    protected LightningAnim(EraseImageView view) {
         super(view);
         mTypeEvaluator = new LightningTypeEvaluator();
     }

@@ -3,7 +3,7 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class CircleAnim extends BaseAnim {
-    public CircleAnim(EraseView view) {
+    public CircleAnim(EraseImageView view) {
         super(view);
         mTypeEvaluator = new CircleTypeEvaluator();
     }

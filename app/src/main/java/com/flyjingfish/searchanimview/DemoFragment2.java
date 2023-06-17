@@ -10,23 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.flyjingfish.searchanimviewlib.EraseView;
+import com.flyjingfish.searchanimviewlib.EraseImageView;
 
 public class DemoFragment2 extends Fragment {
-    private EraseView eraseView;
+    private EraseImageView eraseImageView;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_demo2,container,false);
-        eraseView = view.findViewById(R.id.eraseView);
+        eraseImageView = view.findViewById(R.id.eraseView);
         Button eraseBtn = view.findViewById(R.id.btn_erase);
         eraseBtn.setOnClickListener(view1 -> {
-            eraseView.setEraseMode(!eraseView.isEraseMode());
-            eraseBtn.setText(eraseView.isEraseMode()?"擦除模式":"非擦除模式");
-            if (!eraseView.isEraseMode()){
-                eraseView.resetErasePath();
+            eraseImageView.setEraseMode(!eraseImageView.isEraseMode());
+            eraseBtn.setText(eraseImageView.isEraseMode()?"擦除模式":"非擦除模式");
+            if (!eraseImageView.isEraseMode()){
+                eraseImageView.resetErasePath();
             }
         });
         return view;

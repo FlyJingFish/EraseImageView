@@ -33,7 +33,7 @@ import androidx.lifecycle.LifecycleOwner;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public class EraseView extends AppCompatImageView {
+public class EraseImageView extends AppCompatImageView {
     public static final int INFINITE = ValueAnimator.INFINITE;
     public static final int RESTART = ValueAnimator.RESTART;
     public static final int REVERSE = ValueAnimator.REVERSE;
@@ -69,15 +69,15 @@ public class EraseView extends AppCompatImageView {
     public @interface RepeatMode {
     }
 
-    public EraseView(@NonNull Context context) {
+    public EraseImageView(@NonNull Context context) {
         this(context, null);
     }
 
-    public EraseView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public EraseImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public EraseView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public EraseImageView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EraseView);
         int drawPathTypeInt = a.getInt(R.styleable.EraseView_FlyJFish_erase_DrawPathType, 0);

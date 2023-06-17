@@ -3,7 +3,7 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class ReadAnim extends BaseAnim {
-    public ReadAnim(EraseView view) {
+    public ReadAnim(EraseImageView view) {
         super(view);
         mTypeEvaluator = new ReadTypeEvaluator();
     }

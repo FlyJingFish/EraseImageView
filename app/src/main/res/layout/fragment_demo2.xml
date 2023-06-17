@@ -11,7 +11,7 @@
         android:layout_above="@+id/ll_bottom"
         android:src="@drawable/demoo" />
 
-    <com.flyjingfish.searchanimviewlib.EraseView
+    <com.flyjingfish.searchanimviewlib.EraseImageView
         android:id="@+id/eraseView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,7 +33,7 @@
         app:FlyJFish_erase_resource_percentRight="0.85"
         app:FlyJFish_erase_resource_percentTop="0.0625">
 
-    </com.flyjingfish.searchanimviewlib.EraseView>
+    </com.flyjingfish.searchanimviewlib.EraseImageView>
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"

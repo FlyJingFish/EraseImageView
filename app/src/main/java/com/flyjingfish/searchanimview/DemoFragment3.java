@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.flyjingfish.searchanimviewlib.EraseView;
+import com.flyjingfish.searchanimviewlib.EraseImageView;
 
 public class DemoFragment3 extends Fragment {
-    private EraseView eraseView;
+    private EraseImageView eraseImageView;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_demo3,container,false);
-        eraseView = view.findViewById(R.id.eraseView);
+        eraseImageView = view.findViewById(R.id.eraseView);
         Button resetBtn = view.findViewById(R.id.btn_reset);
-        eraseView.setHandMode(true);
+        eraseImageView.setHandMode(true);
         if (resetBtn != null){
             resetBtn.setOnClickListener(view1 -> {
-                eraseView.resetErasePath();
+                eraseImageView.resetErasePath();
             });
         }
         return view;

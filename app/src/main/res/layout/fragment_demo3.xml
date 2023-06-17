@@ -33,7 +33,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="140dp"
         android:text="恭喜一等奖"/>
-    <com.flyjingfish.searchanimviewlib.EraseView
+    <com.flyjingfish.searchanimviewlib.EraseImageView
         android:id="@+id/eraseView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

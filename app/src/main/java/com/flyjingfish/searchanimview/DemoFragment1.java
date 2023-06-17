@@ -1,13 +1,11 @@
 package com.flyjingfish.searchanimview;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -16,54 +14,54 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.flyjingfish.searchanimviewlib.DrawPathType;
-import com.flyjingfish.searchanimviewlib.EraseView;
+import com.flyjingfish.searchanimviewlib.EraseImageView;
 
 public class DemoFragment1 extends Fragment {
-    private EraseView eraseView;
+    private EraseImageView eraseImageView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_demo1,container,false);
-        eraseView = view.findViewById(R.id.eraseView);
+        eraseImageView = view.findViewById(R.id.eraseView);
         Button eraseBtn = view.findViewById(R.id.btn_erase);
         Button repeatModeBtn = view.findViewById(R.id.btn_repeatMode);
         Spinner spinner = view.findViewById(R.id.spinner);
         eraseBtn.setOnClickListener(view1 -> {
-            eraseView.setEraseMode(!eraseView.isEraseMode());
-            eraseBtn.setText(eraseView.isEraseMode()?"擦除模式":"非擦除模式");
+            eraseImageView.setEraseMode(!eraseImageView.isEraseMode());
+            eraseBtn.setText(eraseImageView.isEraseMode()?"擦除模式":"非擦除模式");
         });
         repeatModeBtn.setOnClickListener(view1 -> {
-            eraseView.stopEraseAnim();
-            if (eraseView.getRepeatMode() == EraseView.RESTART){
-                eraseView.setRepeatMode(EraseView.REVERSE);
+            eraseImageView.stopEraseAnim();
+            if (eraseImageView.getRepeatMode() == EraseImageView.RESTART){
+                eraseImageView.setRepeatMode(EraseImageView.REVERSE);
             }else {
-                eraseView.setRepeatMode(EraseView.RESTART);
+                eraseImageView.setRepeatMode(EraseImageView.RESTART);
             }
-            repeatModeBtn.setText(eraseView.getRepeatMode() == EraseView.RESTART?"RESTART":"REVERSE");
-            eraseView.startEraseAnim();
+            repeatModeBtn.setText(eraseImageView.getRepeatMode() == EraseImageView.RESTART?"RESTART":"REVERSE");
+            eraseImageView.startEraseAnim();
         });
 
         spinner.setAdapter(new ArrayAdapter<String>(requireContext(),android.R.layout.simple_list_item_multiple_choice,mDrawPathTypes));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                eraseView.stopEraseAnim();
+                eraseImageView.stopEraseAnim();
                 switch (position){
                     case 0:
-                        eraseView.setDrawPathType(DrawPathType.Circle);
+                        eraseImageView.setDrawPathType(DrawPathType.Circle);
                         break;
                     case 1:
-                        eraseView.setDrawPathType(DrawPathType.Read);
+                        eraseImageView.setDrawPathType(DrawPathType.Read);
                         break;
                     case 2:
-                        eraseView.setDrawPathType(DrawPathType.Serpentine);
+                        eraseImageView.setDrawPathType(DrawPathType.Serpentine);
                         break;
                     case 3:
-                        eraseView.setDrawPathType(DrawPathType.Lightning);
+                        eraseImageView.setDrawPathType(DrawPathType.Lightning);
                         break;
                 }
-                eraseView.startEraseAnim();
+                eraseImageView.startEraseAnim();
             }
 
             @Override

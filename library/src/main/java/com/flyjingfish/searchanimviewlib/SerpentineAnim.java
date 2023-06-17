@@ -3,7 +3,7 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class SerpentineAnim extends BaseAnim {
-    public SerpentineAnim(EraseView view) {
+    public SerpentineAnim(EraseImageView view) {
         super(view);
         mTypeEvaluator = new SerpentineTypeEvaluator();
     }
