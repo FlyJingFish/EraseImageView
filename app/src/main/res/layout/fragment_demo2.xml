@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_bottom"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_search"
+        android:src="@drawable/ic_above"
         app:FlyJFish_erase_paddingTop="10dp"
         app:FlyJFish_erase_paddingBottom="16dp"
         app:FlyJFish_erase_paddingLeft="10dp"
