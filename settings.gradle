@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "EraseView"
+rootProject.name = "EraseImageView"
 include ':app'
 include ':library'
