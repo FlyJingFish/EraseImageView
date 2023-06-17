@@ -3,7 +3,7 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class LightningAnim extends BaseAnim{
-    protected LightningAnim(SearchAnimView view) {
+    protected LightningAnim(EraseView view) {
         super(view);
         mTypeEvaluator = new LightningTypeEvaluator();
     }
@@ -36,7 +36,7 @@ public class LightningAnim extends BaseAnim{
         }
 
         @Override
-        public Point evaluate(float fraction, Point startValue, Point endValue) {
+        public PointParams evaluate(float fraction, PointParams startValue, PointParams endValue) {
             float current = fraction * totalLength;
             int row = (int) (current / row1Length);
             int rowLength = (int) (current % row1Length);
@@ -52,7 +52,7 @@ public class LightningAnim extends BaseAnim{
                 x = (int) (width - mSearchRadius - mPaddingRight - rowLength * cos);
                 y = (int) (lineHeight + (lineCenterY + rowLength * sin));
             }
-            return new Point(x, y);
+            return new PointParams(new Point(x, y),false);
         }
     }
 }

@@ -3,7 +3,7 @@ package com.flyjingfish.searchanimviewlib;
 import android.graphics.Point;
 
 public class CircleAnim extends BaseAnim {
-    public CircleAnim(SearchAnimView view) {
+    public CircleAnim(EraseView view) {
         super(view);
         mTypeEvaluator = new CircleTypeEvaluator();
     }
@@ -29,11 +29,11 @@ public class CircleAnim extends BaseAnim {
         }
 
         @Override
-        public Point evaluate(float fraction, Point startValue, Point endValue) {
+        public PointParams evaluate(float fraction, PointParams startValue, PointParams endValue) {
             float angle = fraction * 360;
             int x = (int) (centerX + radius * Math.cos(angle * Math.PI / 180));
             int y = (int) (centerY + radius * Math.sin(angle * Math.PI / 180));
-            return new Point(x, y);
+            return new PointParams(new Point(x, y),false);
         }
     }
 }

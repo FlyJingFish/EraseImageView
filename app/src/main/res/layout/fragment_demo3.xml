@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/holo_red_dark">
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:textSize="60sp"
+        android:text="刮刮乐"/>
+
+    <TextView
+        android:id="@+id/tv_give"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="60dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="140dp"
+        android:text="恭喜一等奖"/>
+    <com.flyjingfish.searchanimviewlib.EraseView
+        android:id="@+id/eraseView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_alignStart="@+id/tv_give"
+        android:layout_alignEnd="@+id/tv_give"
+        android:layout_alignTop="@+id/tv_give"
+        android:layout_alignBottom="@+id/tv_give"
+        android:src="@drawable/ic_jiang"
+        app:FlyJFish_erase_radius="10dp"
+        app:FlyJFish_erase_eraseMode="true"
+        app:FlyJFish_erase_handMode="true"
+        app:FlyJFish_erase_resource_percentBottom="0.85"
+        app:FlyJFish_erase_resource_percentLeft="0.0625"
+        app:FlyJFish_erase_resource_percentRight="0.85"
+        app:FlyJFish_erase_resource_percentTop="0.0625"/>
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="重刮"/>
+</RelativeLayout>

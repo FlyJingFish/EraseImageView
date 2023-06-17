@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_above="@+id/ll_bottom"
+        android:src="@drawable/demoo" />
+
+    <com.flyjingfish.searchanimviewlib.EraseView
+        android:id="@+id/eraseView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_search"
+        android:layout_above="@+id/ll_bottom"
+        app:FlyJFish_erase_DrawPathType="Serpentine"
+        app:FlyJFish_erase_paddingTop="10dp"
+        app:FlyJFish_erase_paddingBottom="16dp"
+        app:FlyJFish_erase_paddingLeft="10dp"
+        app:FlyJFish_erase_paddingRight="16dp"
+        app:FlyJFish_erase_paddingStart="10dp"
+        app:FlyJFish_erase_paddingEnd="16dp"
+        app:FlyJFish_erase_radius="50dp"
+        app:FlyJFish_erase_resource="@drawable/ic_search"
+        app:FlyJFish_erase_duration="6000"
+        app:FlyJFish_erase_repeatCount="-1"
+        app:FlyJFish_erase_repeatMode="reverse"
+        app:FlyJFish_erase_autoStart="true"
+        app:FlyJFish_erase_eraseMode="true"
+        app:FlyJFish_erase_handMode="false"
+        app:FlyJFish_erase_resource_percentBottom="0.85"
+        app:FlyJFish_erase_resource_percentLeft="0.0625"
+        app:FlyJFish_erase_resource_percentRight="0.85"
+        app:FlyJFish_erase_resource_percentTop="0.0625">
+
+    </com.flyjingfish.searchanimviewlib.EraseView>
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_erase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="擦除模式"/>
+        <Button
+            android:id="@+id/btn_repeatMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="reverse"/>
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

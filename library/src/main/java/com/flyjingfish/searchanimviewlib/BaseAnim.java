@@ -12,21 +12,21 @@ public class BaseAnim {
     protected float mPaddingTop;
     protected float mPaddingRight;
     protected float mPaddingBottom;
-    protected SearchAnimView mView;
+    protected EraseView mView;
     protected float mSearchRadius;
     protected SearchTypeEvaluator mTypeEvaluator;
     protected SearchTypeEvaluator getTypeEvaluator() {
         return mTypeEvaluator;
     }
 
-    protected BaseAnim(SearchAnimView view) {
+    protected BaseAnim(EraseView view) {
         this.mView = view;
-        this.mSearchRadius = view.getSearchRadius();
+        this.mSearchRadius = view.getEraseRadius();
         setPadding();
     }
 
-    public void setSearchRadius() {
-        this.mSearchRadius = mView.getSearchRadius();
+    public void setEraseRadius() {
+        this.mSearchRadius = mView.getEraseRadius();
         if (mTypeEvaluator != null){
             mTypeEvaluator.update();
         }

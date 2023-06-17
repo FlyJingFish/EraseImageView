@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="SearchAnimView">
-        <attr name="FlyJFish_searchAnim_resource" format="reference" />
-        <attr name="FlyJFish_searchAnim_DrawPathType" format="enum">
+    <declare-styleable name="EraseView">
+        <attr name="FlyJFish_erase_resource" format="reference" />
+        <attr name="FlyJFish_erase_DrawPathType" format="enum">
             <enum name="Circle" value="0" />
             <enum name="Read" value="1" />
             <enum name="Serpentine" value="2" />
             <enum name="Lightning" value="3" />
         </attr>
-        <attr name="FlyJFish_searchAnim_paddingLeft" format="dimension" />
-        <attr name="FlyJFish_searchAnim_paddingTop" format="dimension" />
-        <attr name="FlyJFish_searchAnim_paddingRight" format="dimension" />
-        <attr name="FlyJFish_searchAnim_paddingBottom" format="dimension" />
-        <attr name="FlyJFish_searchAnim_paddingStart" format="dimension" />
-        <attr name="FlyJFish_searchAnim_paddingEnd" format="dimension" />
+        <attr name="FlyJFish_erase_paddingLeft" format="dimension" />
+        <attr name="FlyJFish_erase_paddingTop" format="dimension" />
+        <attr name="FlyJFish_erase_paddingRight" format="dimension" />
+        <attr name="FlyJFish_erase_paddingBottom" format="dimension" />
+        <attr name="FlyJFish_erase_paddingStart" format="dimension" />
+        <attr name="FlyJFish_erase_paddingEnd" format="dimension" />
 
-        <attr name="FlyJFish_searchAnim_radius" format="dimension" />
+        <attr name="FlyJFish_erase_radius" format="dimension" />
 
-        <attr name="FlyJFish_searchAnim_resource_percentLeft" format="float" />
-        <attr name="FlyJFish_searchAnim_resource_percentTop" format="float" />
-        <attr name="FlyJFish_searchAnim_resource_percentRight" format="float" />
-        <attr name="FlyJFish_searchAnim_resource_percentBottom" format="float" />
+        <attr name="FlyJFish_erase_resource_percentLeft" format="float" />
+        <attr name="FlyJFish_erase_resource_percentTop" format="float" />
+        <attr name="FlyJFish_erase_resource_percentRight" format="float" />
+        <attr name="FlyJFish_erase_resource_percentBottom" format="float" />
 
-        <attr name="FlyJFish_searchAnim_duration" format="integer" />
-        <attr name="FlyJFish_searchAnim_repeatCount" format="integer" />
-        <attr name="FlyJFish_searchAnim_repeatMode" format="enum">
+        <attr name="FlyJFish_erase_duration" format="integer" />
+        <attr name="FlyJFish_erase_repeatCount" format="integer" />
+        <attr name="FlyJFish_erase_repeatMode" format="enum">
             <enum name="restart" value="1" />
             <enum name="reverse" value="2" />
         </attr>
-        <attr name="FlyJFish_searchAnim_autoStart" format="boolean" />
-        <attr name="FlyJFish_searchAnim_eraseMode" format="boolean" />
-        <attr name="FlyJFish_searchAnim_handMode" format="boolean" />
+        <attr name="FlyJFish_erase_autoStart" format="boolean" />
+        <attr name="FlyJFish_erase_eraseMode" format="boolean" />
+        <attr name="FlyJFish_erase_handMode" format="boolean" />
     </declare-styleable>
 </resources>

@@ -10,16 +10,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PathMeasure;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -35,22 +32,19 @@ import androidx.lifecycle.LifecycleOwner;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
-public class SearchAnimView extends AppCompatImageView {
+public class EraseView extends AppCompatImageView {
     public static final int INFINITE = ValueAnimator.INFINITE;
     public static final int RESTART = ValueAnimator.RESTART;
     public static final int REVERSE = ValueAnimator.REVERSE;
-    private final Path mSearchPath = new Path();
+    private final Path mErasePath = new Path();
     private final Path mClipPath = new Path();
-    private final Rect mSearchIconBounds = new Rect();
-    private final RectF mSearchIconPercent = new RectF();
-    private final RectF mSearchIconSubRectF = new RectF();
-    private float mSearchRadius;
-    private ValueAnimator mSearchAnim;
-    private Drawable mSearchIcon;
+    private final Rect mEraseIconBounds = new Rect();
+    private final RectF mEraseIconPercent = new RectF();
+    private final RectF mEraseIconSubRectF = new RectF();
+    private float mEraseRadius;
+    private ValueAnimator mEraseAnim;
+    private Drawable mEraseIcon;
     private DrawPathType mDrawPathType;
     private float mAnimPaddingLeft;
     private float mAnimPaddingTop;
@@ -66,7 +60,7 @@ public class SearchAnimView extends AppCompatImageView {
     private boolean mAutoStart;
     private boolean mEraseMode;
     private boolean mHandMode;
-    private boolean mShowSearchIcon;
+    private boolean mShowEraseIcon;
     private final Paint mErasePaint;
     private final PorterDuffXfermode mDstOutXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
 
@@ -75,65 +69,65 @@ public class SearchAnimView extends AppCompatImageView {
     public @interface RepeatMode {
     }
 
-    public SearchAnimView(@NonNull Context context) {
+    public EraseView(@NonNull Context context) {
         this(context, null);
     }
 
-    public SearchAnimView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public EraseView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SearchAnimView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public EraseView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SearchAnimView);
-        int drawPathTypeInt = a.getInt(R.styleable.SearchAnimView_FlyJFish_searchAnim_DrawPathType, 0);
-        mSearchIcon = a.getDrawable(R.styleable.SearchAnimView_FlyJFish_searchAnim_resource);
-        float percentLeft = a.getFloat(R.styleable.SearchAnimView_FlyJFish_searchAnim_resource_percentLeft, 0);
-        float percentTop = a.getFloat(R.styleable.SearchAnimView_FlyJFish_searchAnim_resource_percentTop, 0);
-        float percentRight = a.getFloat(R.styleable.SearchAnimView_FlyJFish_searchAnim_resource_percentRight, 0);
-        float percentBottom = a.getFloat(R.styleable.SearchAnimView_FlyJFish_searchAnim_resource_percentBottom, 0);
-        mAnimPaddingLeft = a.getDimension(R.styleable.SearchAnimView_FlyJFish_searchAnim_paddingLeft, 0);
-        mAnimPaddingTop = a.getDimension(R.styleable.SearchAnimView_FlyJFish_searchAnim_paddingTop, 0);
-        mAnimPaddingRight = a.getDimension(R.styleable.SearchAnimView_FlyJFish_searchAnim_paddingRight, 0);
-        mAnimPaddingBottom = a.getDimension(R.styleable.SearchAnimView_FlyJFish_searchAnim_paddingBottom, 0);
-        mAnimPaddingStart = a.getDimension(R.styleable.SearchAnimView_FlyJFish_searchAnim_paddingStart, 0);
-        mAnimPaddingEnd = a.getDimension(R.styleable.SearchAnimView_FlyJFish_searchAnim_paddingEnd, 0);
-        mSearchRadius = a.getDimension(R.styleable.SearchAnimView_FlyJFish_searchAnim_radius, 30);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EraseView);
+        int drawPathTypeInt = a.getInt(R.styleable.EraseView_FlyJFish_erase_DrawPathType, 0);
+        mEraseIcon = a.getDrawable(R.styleable.EraseView_FlyJFish_erase_resource);
+        float percentLeft = a.getFloat(R.styleable.EraseView_FlyJFish_erase_resource_percentLeft, 0);
+        float percentTop = a.getFloat(R.styleable.EraseView_FlyJFish_erase_resource_percentTop, 0);
+        float percentRight = a.getFloat(R.styleable.EraseView_FlyJFish_erase_resource_percentRight, 0);
+        float percentBottom = a.getFloat(R.styleable.EraseView_FlyJFish_erase_resource_percentBottom, 0);
+        mAnimPaddingLeft = a.getDimension(R.styleable.EraseView_FlyJFish_erase_paddingLeft, 0);
+        mAnimPaddingTop = a.getDimension(R.styleable.EraseView_FlyJFish_erase_paddingTop, 0);
+        mAnimPaddingRight = a.getDimension(R.styleable.EraseView_FlyJFish_erase_paddingRight, 0);
+        mAnimPaddingBottom = a.getDimension(R.styleable.EraseView_FlyJFish_erase_paddingBottom, 0);
+        mAnimPaddingStart = a.getDimension(R.styleable.EraseView_FlyJFish_erase_paddingStart, 0);
+        mAnimPaddingEnd = a.getDimension(R.styleable.EraseView_FlyJFish_erase_paddingEnd, 0);
+        mEraseRadius = a.getDimension(R.styleable.EraseView_FlyJFish_erase_radius, 30);
 
-        mDuration = a.getInteger(R.styleable.SearchAnimView_FlyJFish_searchAnim_duration, 1000);
-        mRepeatCount = a.getInteger(R.styleable.SearchAnimView_FlyJFish_searchAnim_repeatCount, 0);
-        mRepeatMode = a.getInt(R.styleable.SearchAnimView_FlyJFish_searchAnim_repeatMode, RESTART);
-        mAutoStart = a.getBoolean(R.styleable.SearchAnimView_FlyJFish_searchAnim_autoStart, false);
-        mEraseMode = a.getBoolean(R.styleable.SearchAnimView_FlyJFish_searchAnim_eraseMode, false);
-        mHandMode = a.getBoolean(R.styleable.SearchAnimView_FlyJFish_searchAnim_handMode, false);
+        mDuration = a.getInteger(R.styleable.EraseView_FlyJFish_erase_duration, 1000);
+        mRepeatCount = a.getInteger(R.styleable.EraseView_FlyJFish_erase_repeatCount, 0);
+        mRepeatMode = a.getInt(R.styleable.EraseView_FlyJFish_erase_repeatMode, RESTART);
+        mAutoStart = a.getBoolean(R.styleable.EraseView_FlyJFish_erase_autoStart, false);
+        mEraseMode = a.getBoolean(R.styleable.EraseView_FlyJFish_erase_eraseMode, false);
+        mHandMode = a.getBoolean(R.styleable.EraseView_FlyJFish_erase_handMode, false);
         a.recycle();
 
         mDrawPathType = DrawPathType.values()[drawPathTypeInt];
-        mSearchPath.setFillType(Path.FillType.INVERSE_WINDING);
+        mErasePath.setFillType(Path.FillType.INVERSE_WINDING);
         mErasePaint = new Paint();
         mErasePaint.setColor(Color.GREEN);
         mErasePaint.setStyle(Paint.Style.STROKE);
         mErasePaint.setStrokeJoin(Paint.Join.ROUND);
         mErasePaint.setStrokeCap(Paint.Cap.ROUND);
-        mErasePaint.setStrokeWidth(mSearchRadius*2);
+        mErasePaint.setStrokeWidth(mEraseRadius * 2);
         mErasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-        mSearchIconPercent.set(percentLeft, percentTop, percentRight, percentBottom);
-        mShowSearchIcon = !mHandMode;
-        calculateSearchIconSubRectF();
+        mEraseIconPercent.set(percentLeft, percentTop, percentRight, percentBottom);
+        mShowEraseIcon = !mHandMode;
+        calculateEraseIconSubRectF();
 
         addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                if (mSearchAnim != null && !mSearchAnim.isStarted()) {
-                    mSearchAnim.start();
+                if (mEraseAnim != null && !mEraseAnim.isStarted()) {
+                    mEraseAnim.start();
                 }
             }
 
             @Override
             public void onViewDetachedFromWindow(View v) {
-                if (mSearchAnim != null) {
-                    mSearchAnim.removeAllListeners();
-                    mSearchAnim.cancel();
+                if (mEraseAnim != null) {
+                    mEraseAnim.removeAllListeners();
+                    mEraseAnim.cancel();
                 }
             }
         });
@@ -162,15 +156,15 @@ public class SearchAnimView extends AppCompatImageView {
     private final LifecycleEventObserver mLifecycleEventObserver = new LifecycleEventObserver() {
         @Override
         public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
-            if (mSearchAnim == null) {
+            if (mEraseAnim == null) {
                 return;
             }
-            if (event == Lifecycle.Event.ON_START && mSearchAnim.isPaused()) {
-                mSearchAnim.resume();
-            } else if (event == Lifecycle.Event.ON_STOP && mSearchAnim.isRunning()) {
-                mSearchAnim.pause();
+            if (event == Lifecycle.Event.ON_START && mEraseAnim.isPaused()) {
+                mEraseAnim.resume();
+            } else if (event == Lifecycle.Event.ON_STOP && mEraseAnim.isRunning()) {
+                mEraseAnim.pause();
             } else if (event == Lifecycle.Event.ON_DESTROY) {
-                mSearchAnim.cancel();
+                mEraseAnim.cancel();
             }
         }
     };
@@ -185,52 +179,52 @@ public class SearchAnimView extends AppCompatImageView {
         }
     }
 
-    public void setSearchIcon(Drawable drawable, RectF searchIconPercent) {
-        mSearchIcon = drawable;
-        this.mSearchIconPercent.set(searchIconPercent);
-        calculateSearchIconSubRectF();
+    public void setEraseIcon(Drawable drawable, RectF eraseIconPercent) {
+        mEraseIcon = drawable;
+        this.mEraseIconPercent.set(eraseIconPercent);
+        calculateEraseIconSubRectF();
     }
 
-    public float getSearchRadius() {
-        return mSearchRadius;
+    public float getEraseRadius() {
+        return mEraseRadius;
     }
 
-    public void setSearchRadius(float searchRadius) {
-        this.mSearchRadius = searchRadius;
-        calculateSearchIconSubRectF();
+    public void setEraseRadius(float eraseRadius) {
+        this.mEraseRadius = eraseRadius;
+        calculateEraseIconSubRectF();
         if (mBaseAnim != null) {
-            mBaseAnim.setSearchRadius();
+            mBaseAnim.setEraseRadius();
         }
     }
 
-    private void calculateSearchIconSubRectF() {
-        float width = mSearchRadius * 2 / (mSearchIconPercent.right - mSearchIconPercent.left);
-        float height = mSearchRadius * 2 / (mSearchIconPercent.bottom - mSearchIconPercent.top);
-        float left = width * mSearchIconPercent.left + mSearchRadius;
-        float top = height * mSearchIconPercent.top + mSearchRadius;
-        float right = width * (1 - mSearchIconPercent.right) + mSearchRadius;
-        float bottom = height * (1 - mSearchIconPercent.bottom) + mSearchRadius;
-        mSearchIconSubRectF.set(left, top, right, bottom);
+    private void calculateEraseIconSubRectF() {
+        float width = mEraseRadius * 2 / (mEraseIconPercent.right - mEraseIconPercent.left);
+        float height = mEraseRadius * 2 / (mEraseIconPercent.bottom - mEraseIconPercent.top);
+        float left = width * mEraseIconPercent.left + mEraseRadius;
+        float top = height * mEraseIconPercent.top + mEraseRadius;
+        float right = width * (1 - mEraseIconPercent.right) + mEraseRadius;
+        float bottom = height * (1 - mEraseIconPercent.bottom) + mEraseRadius;
+        mEraseIconSubRectF.set(left, top, right, bottom);
     }
 
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-        mErasePaint.setStrokeWidth(mSearchRadius*2);
+        mErasePaint.setStrokeWidth(mEraseRadius * 2);
         mErasePaint.setXfermode(null);
-        canvas.saveLayer(new RectF(0,0,getWidth(),getHeight()),mErasePaint);
+        canvas.saveLayer(new RectF(0, 0, getWidth(), getHeight()), mErasePaint);
 
         canvas.save();
-        canvas.clipPath(mSearchPath);
+        canvas.clipPath(mErasePath);
         super.onDraw(canvas);
         canvas.restore();
 
         mErasePaint.setXfermode(mDstOutXfermode);
-        canvas.drawPath(mClipPath,mErasePaint);
+        canvas.drawPath(mClipPath, mErasePaint);
 
-        if (mSearchIcon != null && mShowSearchIcon) {
-            mSearchIcon.setBounds(mSearchIconBounds);
-            mSearchIcon.draw(canvas);
+        if (mEraseIcon != null && mShowEraseIcon) {
+            mEraseIcon.setBounds(mEraseIconBounds);
+            mEraseIcon.draw(canvas);
         }
     }
 
@@ -238,51 +232,57 @@ public class SearchAnimView extends AppCompatImageView {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (mAutoStart && !mHandMode) {
-            startSearchAnim();
+            startEraseAnim();
         }
     }
 
     private int mCurrentRepeatCount;
     private int mLastRepeatCount;
     private Point mLastPoint;
-    public void setSearchPoint(Point point) {
-        mSearchPath.reset();
-        mSearchPath.addCircle(point.x, point.y, mSearchRadius, Path.Direction.CW);
 
-        mSearchIconBounds.set((int) (point.x - mSearchIconSubRectF.left), (int) (point.y - mSearchIconSubRectF.top), (int) (point.x + mSearchIconSubRectF.right), (int) (point.y + mSearchIconSubRectF.bottom));
+    public void setErasePoint(Point point,boolean clipPathMovePoint) {
+        mErasePath.reset();
+        mErasePath.addCircle(point.x, point.y, mEraseRadius, Path.Direction.CW);
+
+        mEraseIconBounds.set((int) (point.x - mEraseIconSubRectF.left), (int) (point.y - mEraseIconSubRectF.top), (int) (point.x + mEraseIconSubRectF.right), (int) (point.y + mEraseIconSubRectF.bottom));
 
         if (mEraseMode) {
-            if (mLastPoint == null){
-                mClipPath.moveTo(point.x,point.y);
-            }else {
-                mClipPath.lineTo(point.x,point.y);
+            if (mLastPoint == null || clipPathMovePoint) {
+                mClipPath.moveTo(point.x, point.y);
+            } else {
+                mClipPath.lineTo(point.x, point.y);
             }
-        }
-        if (mLastRepeatCount != mCurrentRepeatCount) {
-            mLastPoint = null;
-            if (mEraseMode) {
+            if (mLastRepeatCount != mCurrentRepeatCount) {
+                mLastPoint = null;
                 mClipPath.reset();
+            } else {
+                mLastPoint = point;
             }
-        }else {
-            mLastPoint = point;
         }
         mLastRepeatCount = mCurrentRepeatCount;
         invalidate();
     }
 
-    public void startSearchAnim() {
-        stopSearchAnim();
-        if (mSearchAnim == null) {
-            mSearchAnim = new ValueAnimator();
+    public void resetErasePath() {
+        mLastPoint = null;
+        mErasePath.reset();
+        mClipPath.reset();
+        invalidate();
+    }
+
+    public void startEraseAnim() {
+        stopEraseAnim();
+        if (mEraseAnim == null) {
+            mEraseAnim = new ValueAnimator();
         }
         mBaseAnim = getAnim();
-        mSearchAnim.setObjectValues(new Point(0, 0));
-        mSearchAnim.setEvaluator(mBaseAnim.getTypeEvaluator());
-        mSearchAnim.setDuration(mDuration);
-        mSearchAnim.setRepeatMode(mRepeatMode);
-        mSearchAnim.setRepeatCount(mRepeatCount);
-        mSearchAnim.setInterpolator(mInterpolator);
-        mSearchAnim.addListener(new Animator.AnimatorListener() {
+        mEraseAnim.setObjectValues(new PointParams(new Point(0, 0),false));
+        mEraseAnim.setEvaluator(mBaseAnim.getTypeEvaluator());
+        mEraseAnim.setDuration(mDuration);
+        mEraseAnim.setRepeatMode(mRepeatMode);
+        mEraseAnim.setRepeatCount(mRepeatCount);
+        mEraseAnim.setInterpolator(mInterpolator);
+        mEraseAnim.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(@NonNull Animator animation) {
             }
@@ -300,31 +300,32 @@ public class SearchAnimView extends AppCompatImageView {
                 mCurrentRepeatCount++;
             }
         });
-        mSearchAnim.addUpdateListener(animation -> {
-            Point point = (Point) animation.getAnimatedValue();
-            setSearchPoint(point);
+        mEraseAnim.addUpdateListener(animation -> {
+            PointParams pointParams = (PointParams) animation.getAnimatedValue();
+            setErasePoint(pointParams.point,pointParams.clipPathMovePoint);
         });
-        mSearchAnim.start();
+        mEraseAnim.start();
     }
 
-    public void stopSearchAnim() {
-        if (mSearchAnim != null) {
-            mSearchAnim.removeAllUpdateListeners();
-            mSearchAnim.cancel();
+    public void stopEraseAnim() {
+        if (mEraseAnim != null) {
+            mEraseAnim.removeAllUpdateListeners();
+            mEraseAnim.cancel();
+            resetErasePath();
         }
     }
 
-    public void resumeSearchAnim() {
-        if (mSearchAnim != null) {
-            mSearchAnim.resume();
+    public void resumeEraseAnim() {
+        if (mEraseAnim != null) {
+            mEraseAnim.resume();
         } else {
-            startSearchAnim();
+            startEraseAnim();
         }
     }
 
-    public void pauseSearchAnim() {
-        if (mSearchAnim != null) {
-            mSearchAnim.pause();
+    public void pauseEraseAnim() {
+        if (mEraseAnim != null) {
+            mEraseAnim.pause();
         }
     }
 
@@ -416,12 +417,12 @@ public class SearchAnimView extends AppCompatImageView {
 
     public void setDrawPathType(DrawPathType drawPathType) {
         this.mDrawPathType = drawPathType;
-        stopSearchAnim();
-        mSearchAnim = null;
+        stopEraseAnim();
+        mEraseAnim = null;
     }
 
-    public Drawable getSearchIcon() {
-        return mSearchIcon;
+    public Drawable getEraseIcon() {
+        return mEraseIcon;
     }
 
     public BaseAnim getBaseAnim() {
@@ -474,22 +475,22 @@ public class SearchAnimView extends AppCompatImageView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!mHandMode){
+        if (!mHandMode) {
             return super.onTouchEvent(event);
         }
         Point point = new Point((int) event.getX(), (int) event.getY());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mShowSearchIcon = true;
-                setSearchPoint(point);
+                mShowEraseIcon = true;
+                setErasePoint(point,false);
                 mLastPoint = point;
                 break;
             case MotionEvent.ACTION_MOVE:
-                setSearchPoint(point);
+                setErasePoint(point,false);
                 break;
             case MotionEvent.ACTION_UP:
-                mShowSearchIcon = !mEraseMode;
-                setSearchPoint(point);
+                mShowEraseIcon = !mEraseMode;
+                setErasePoint(point,false);
                 mLastPoint = null;
                 break;
         }
@@ -503,6 +504,10 @@ public class SearchAnimView extends AppCompatImageView {
 
     public void setEraseMode(boolean eraseMode) {
         this.mEraseMode = eraseMode;
+        if (!eraseMode){
+            mClipPath.reset();
+            mLastPoint = null;
+        }
     }
 
     public boolean isHandMode() {
@@ -511,9 +516,9 @@ public class SearchAnimView extends AppCompatImageView {
 
     public void setHandMode(boolean handMode) {
         this.mHandMode = handMode;
-        mShowSearchIcon = !mHandMode;
-        if (handMode){
-            stopSearchAnim();
+        mShowEraseIcon = !mHandMode;
+        if (handMode) {
+            stopEraseAnim();
         }
         invalidate();
     }
