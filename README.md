@@ -29,7 +29,7 @@
 
 ```gradle
     dependencies {
-        implementation 'com.github.FlyJingFish:EraseImageView:1.0.2'
+        implementation 'com.github.FlyJingFish:EraseImageView:1.0.3'
     }
 ```
 ## 第三步，使用说明
@@ -86,5 +86,16 @@
 | FlyJFish_erase_autoStart              |  boolean  |     动画是否自动开始     |
 | FlyJFish_erase_eraseMode              |  boolean  |     是否擦除记录模式     |
 | FlyJFish_erase_handMode               |  boolean  |     是否手动触摸模式     |
+
+### 部分方法介绍
+
+| attr            |   description   |
+|-----------------|:---------------:|
+| startEraseAnim  |      开始动画       |
+| stopEraseAnim   |      结束动画       |
+| resumeEraseAnim |      继续动画       |
+| pauseEraseAnim  |      暂停动画       |
+| isPaused        |     是否暂停动画      |
+| setInterpolator |      设置插值器      |
 
 

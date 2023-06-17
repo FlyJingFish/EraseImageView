@@ -329,6 +329,13 @@ public class EraseImageView extends AppCompatImageView {
         }
     }
 
+    public boolean isPaused() {
+        if (mEraseAnim != null){
+            return mEraseAnim.isPaused();
+        }
+        return true;
+    }
+
     private BaseAnim getAnim() {
         BaseAnim baseAnim;
         if (mDrawPathType == DrawPathType.Read) {
