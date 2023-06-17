@@ -1,5 +1,12 @@
 # EraseImageView
 
+[![](https://jitpack.io/v/FlyJingFish/EraseImageView.svg)](https://jitpack.io/#FlyJingFish/EraseImageView)
+[![GitHub stars](https://img.shields.io/github/stars/FlyJingFish/EraseImageView.svg)](https://github.com/FlyJingFish/EraseImageView/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/FlyJingFish/EraseImageView.svg)](https://github.com/FlyJingFish/EraseImageView/network)
+[![GitHub issues](https://img.shields.io/github/issues/FlyJingFish/EraseImageView.svg)](https://github.com/FlyJingFish/EraseImageView/issues)
+[![GitHub license](https://img.shields.io/github/license/FlyJingFish/EraseImageView.svg)](https://github.com/FlyJingFish/EraseImageView/blob/master/LICENSE)
+
+
 可擦除带动画的ImageView
 
 ## [点此下载apk,也可扫下边二维码下载](https://github.com/FlyJingFish/EraseImageView/blob/master/apk/release/app-release.apk?raw=true)
@@ -18,11 +25,11 @@
         }
     }
 ```
-## 第二步，需要引用的build.gradle （最新版本[![](https://jitpack.io/v/FlyJingFish/HollowTextView.svg)](https://jitpack.io/#FlyJingFish/HollowTextView)）
+## 第二步，需要引用的build.gradle （最新版本[![](https://jitpack.io/v/FlyJingFish/EraseImageView.svg)](https://jitpack.io/#FlyJingFish/EraseImageView)）
 
 ```gradle
     dependencies {
-        implementation 'com.github.FlyJingFish:HollowTextView:1.1.3'
+        implementation 'com.github.FlyJingFish:EraseImageView:1.0.0'
     }
 ```
 ## 第三步，使用说明
