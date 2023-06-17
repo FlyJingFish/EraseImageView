@@ -36,9 +36,7 @@
         app:FlyJFish_erase_resource_percentBottom="0.85"
         app:FlyJFish_erase_resource_percentLeft="0.0625"
         app:FlyJFish_erase_resource_percentRight="0.85"
-        app:FlyJFish_erase_resource_percentTop="0.0625">
-
-    </com.flyjingfish.searchanimviewlib.EraseImageView>
+        app:FlyJFish_erase_resource_percentTop="0.0625"/>
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
