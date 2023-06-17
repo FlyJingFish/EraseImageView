@@ -6,7 +6,7 @@
 
 <img src="/screenshot/download_qrcode.png" alt="show" width="200px" />
 
-<img src="/screenshot/SVID_20230617_223820_1.gif" />
+<img src="/screenshot/SVID_20230617_223820_1.gif" alt="show" width="320px" height=""/>
 
 ## 第一步，根目录build.gradle
 
