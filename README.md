@@ -87,7 +87,7 @@
 | FlyJFish_erase_eraseMode              |  boolean  |     是否擦除记录模式     |
 | FlyJFish_erase_handMode               |  boolean  |     是否手动触摸模式     |
 
-### 部分方法介绍
+### 部分动画相关方法介绍，其他方法自行尝试
 
 | attr            |   description   |
 |-----------------|:---------------:|
