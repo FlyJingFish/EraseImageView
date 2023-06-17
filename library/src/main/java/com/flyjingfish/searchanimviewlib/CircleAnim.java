@@ -20,10 +20,10 @@ public class CircleAnim extends BaseAnim {
             if (width < height) {
                 radius = (width - mPaddingLeft - mPaddingRight) / 2 - mSearchRadius;
                 centerX = mPaddingLeft + radius + mSearchRadius;
-                centerY = (height - mPaddingTop - mPaddingBottom) / 2 - mPaddingTop;
+                centerY = (height - mPaddingTop - mPaddingBottom) / 2 + mPaddingTop;
             } else {
                 radius = (height - mPaddingTop - mPaddingBottom) / 2 - mSearchRadius;
-                centerX = (width - mPaddingLeft - mPaddingRight) / 2 - mPaddingLeft;
+                centerX = (width - mPaddingLeft - mPaddingRight) / 2 + mPaddingLeft;
                 centerY = mPaddingTop + radius + mSearchRadius;
             }
         }
