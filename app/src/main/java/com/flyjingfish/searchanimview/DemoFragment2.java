@@ -10,7 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyjingfish.searchanimviewlib.EraseImageView;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class DemoFragment2 extends Fragment {
     private EraseImageView eraseImageView;
@@ -22,6 +26,9 @@ public class DemoFragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_demo2,container,false);
         eraseImageView = view.findViewById(R.id.eraseView);
         Button eraseBtn = view.findViewById(R.id.btn_erase);
+
+        RequestOptions mRequestOptions = new RequestOptions().transform(new BlurTransformation(40));
+        Glide.with(this).load(R.drawable.demo2).apply(mRequestOptions).into(eraseImageView);
         eraseBtn.setOnClickListener(view1 -> {
             eraseImageView.setEraseMode(!eraseImageView.isEraseMode());
             eraseBtn.setText(eraseImageView.isEraseMode()?"擦除模式":"非擦除模式");

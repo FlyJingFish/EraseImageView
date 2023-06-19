@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:layout_above="@+id/ll_bottom"
-        android:src="@drawable/demoo" />
+        android:src="@drawable/demo2" />
 
     <com.flyjingfish.searchanimviewlib.EraseImageView
         android:id="@+id/eraseView"
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_bottom"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_above"
+        android:src="@drawable/demo"
         app:FlyJFish_erase_paddingTop="10dp"
         app:FlyJFish_erase_paddingBottom="16dp"
         app:FlyJFish_erase_paddingLeft="10dp"

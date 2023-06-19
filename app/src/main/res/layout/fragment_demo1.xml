@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:layout_above="@+id/ll_bottom"
-        android:src="@drawable/demoo" />
+        android:src="@drawable/demo" />
 
     <com.flyjingfish.searchanimviewlib.EraseImageView
         android:id="@+id/eraseView"
