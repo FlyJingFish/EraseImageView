@@ -42,6 +42,7 @@ public class EraseImageView extends AppCompatImageView {
     private final Rect mEraseIconBounds = new Rect();
     private final RectF mEraseIconPercent = new RectF();
     private final RectF mEraseIconSubRectF = new RectF();
+    private final RectF mLayerRectF = new RectF(0, 0, 0, 0);
     private float mEraseRadius;
     private ValueAnimator mEraseAnim;
     private Drawable mEraseIcon;
@@ -212,7 +213,8 @@ public class EraseImageView extends AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         mErasePaint.setStrokeWidth(mEraseRadius * 2);
         mErasePaint.setXfermode(null);
-        canvas.saveLayer(new RectF(0, 0, getWidth(), getHeight()), mErasePaint);
+        mLayerRectF.set(0, 0, getWidth(), getHeight());
+        canvas.saveLayer(mLayerRectF, mErasePaint);
 
         canvas.save();
         canvas.clipPath(mErasePath);
