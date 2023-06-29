@@ -19,42 +19,59 @@
         android:layout_marginTop="60dp"
         android:textSize="60sp"
         android:text="刮刮乐"/>
-
-    <TextView
-        android:id="@+id/tv_give"
+    <com.flyjingfish.searchanimviewlib.ScratchCardLayout
+        android:id="@+id/fl_give"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:layout_marginBottom="140dp"
         android:layout_marginHorizontal="60dp"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:background="@color/white"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="140dp"
-        android:text="恭喜一等奖"/>
-    <com.flyjingfish.searchanimviewlib.EraseImageView
-        android:id="@+id/eraseView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_alignStart="@+id/tv_give"
-        android:layout_alignEnd="@+id/tv_give"
-        android:layout_alignTop="@+id/tv_give"
-        android:layout_alignBottom="@+id/tv_give"
-        android:src="@drawable/ic_jiang"
-        app:FlyJFish_erase_radius="10dp"
-        app:FlyJFish_erase_eraseMode="true"
-        app:FlyJFish_erase_handMode="true"
-        app:FlyJFish_erase_resource_percentBottom="0.85"
-        app:FlyJFish_erase_resource_percentLeft="0.0625"
-        app:FlyJFish_erase_resource_percentRight="0.85"
-        app:FlyJFish_erase_resource_percentTop="0.0625"/>
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_give"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:text="恭喜一等奖"/>
 
-    <Button
-        android:id="@+id/btn_reset"
-        android:layout_width="wrap_content"
+        <com.flyjingfish.searchanimviewlib.EraseImageView
+            android:id="@+id/eraseView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_jiang"
+            app:FlyJFish_erase_radius="10dp"
+            app:FlyJFish_erase_eraseMode="true"
+            app:FlyJFish_erase_handMode="true"
+            app:FlyJFish_erase_resource_percentBottom="0.85"
+            app:FlyJFish_erase_resource_percentLeft="0.0625"
+            app:FlyJFish_erase_resource_percentRight="0.85"
+            app:FlyJFish_erase_resource_percentTop="0.0625"/>
+    </com.flyjingfish.searchanimviewlib.ScratchCardLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="重刮"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重刮"/>
+
+        <CheckBox
+            android:id="@+id/btn_visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="刮开后清除所有区域"/>
+    </LinearLayout>
+
 </RelativeLayout>

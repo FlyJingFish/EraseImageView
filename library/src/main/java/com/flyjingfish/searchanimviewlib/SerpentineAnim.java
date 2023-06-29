@@ -8,7 +8,7 @@ public class SerpentineAnim extends BaseAnim {
         mTypeEvaluator = new SerpentineTypeEvaluator();
     }
 
-    private class SerpentineTypeEvaluator extends SearchTypeEvaluator {
+    private class SerpentineTypeEvaluator extends EraseTypeEvaluator {
         private float totalLength;
         private float pathWidth;
         private float row1Length;

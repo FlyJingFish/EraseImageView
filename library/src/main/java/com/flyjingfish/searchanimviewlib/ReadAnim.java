@@ -8,7 +8,7 @@ public class ReadAnim extends BaseAnim {
         mTypeEvaluator = new ReadTypeEvaluator();
     }
 
-    private class ReadTypeEvaluator extends SearchTypeEvaluator {
+    private class ReadTypeEvaluator extends EraseTypeEvaluator {
         private float totalLength;
         private float pathWidth;
         private float width;

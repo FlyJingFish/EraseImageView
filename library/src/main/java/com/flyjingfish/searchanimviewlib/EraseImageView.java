@@ -21,10 +21,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
@@ -62,6 +64,10 @@ public class EraseImageView extends AppCompatImageView {
     private boolean mEraseMode;
     private boolean mHandMode;
     private boolean mShowEraseIcon;
+    private boolean mOnLayoutFinish;
+    private boolean mStartBeforeLayout;
+    private boolean mEraseAllBeforeLayout;
+    private boolean mEraseAllArea;
     private final Paint mErasePaint;
     private final PorterDuffXfermode mDstOutXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
 
@@ -151,7 +157,9 @@ public class EraseImageView extends AppCompatImageView {
             }
         });
 
-
+        if (mAutoStart){
+            startEraseAnim();
+        }
     }
 
     private final LifecycleEventObserver mLifecycleEventObserver = new LifecycleEventObserver() {
@@ -180,16 +188,34 @@ public class EraseImageView extends AppCompatImageView {
         }
     }
 
+    /**
+     * 设置擦除图标
+     * @param drawable 图片
+     * @param eraseIconPercent 擦除圆点 在 图标上、下、左、右的百分比
+     */
     public void setEraseIcon(Drawable drawable, RectF eraseIconPercent) {
         mEraseIcon = drawable;
         this.mEraseIconPercent.set(eraseIconPercent);
         calculateEraseIconSubRectF();
     }
 
+    /**
+     * 设置擦除图标
+     * @param drawableRes 图片
+     * @param eraseIconPercent 擦除圆点 在 图标上、下、左、右的百分比
+     */
+    public void setEraseIcon(@DrawableRes int drawableRes, RectF eraseIconPercent) {
+        setEraseIcon(ContextCompat.getDrawable(getContext(),drawableRes),eraseIconPercent);
+    }
+
     public float getEraseRadius() {
         return mEraseRadius;
     }
 
+    /**
+     * 设置擦除圆点的半径
+     * @param eraseRadius 半径值
+     */
     public void setEraseRadius(float eraseRadius) {
         this.mEraseRadius = eraseRadius;
         calculateEraseIconSubRectF();
@@ -211,7 +237,7 @@ public class EraseImageView extends AppCompatImageView {
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-        mErasePaint.setStrokeWidth(mEraseRadius * 2);
+        mErasePaint.setStrokeWidth(mEraseAllArea?Math.max(getWidth(),getHeight()):mEraseRadius * 2);
         mErasePaint.setXfermode(null);
         mLayerRectF.set(0, 0, getWidth(), getHeight());
         canvas.saveLayer(mLayerRectF, mErasePaint);
@@ -233,8 +259,12 @@ public class EraseImageView extends AppCompatImageView {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (mAutoStart && !mHandMode) {
-            startEraseAnim();
+        mOnLayoutFinish = true;
+        if (mStartBeforeLayout) {
+            startAnim();
+        }
+        if (mEraseAllBeforeLayout){
+            eraseAllArea();
         }
     }
 
@@ -242,7 +272,12 @@ public class EraseImageView extends AppCompatImageView {
     private int mLastRepeatCount;
     private Point mLastPoint;
 
-    public void setErasePoint(Point point,boolean clipPathMovePoint) {
+    /**
+     * 设置擦除点位
+     * @param point 擦除坐标
+     * @param clipPathMovePoint 是否重新开始新的路径起点
+     */
+    public void setErasePoint(Point point, boolean clipPathMovePoint) {
         mErasePath.reset();
         mErasePath.addCircle(point.x, point.y, mEraseRadius, Path.Direction.CW);
 
@@ -265,20 +300,23 @@ public class EraseImageView extends AppCompatImageView {
         invalidate();
     }
 
+    /**
+     * 重置记忆的擦除路径
+     */
     public void resetErasePath() {
         mLastPoint = null;
         mErasePath.reset();
         mClipPath.reset();
+        mEraseAllArea = false;
         invalidate();
     }
-
-    public void startEraseAnim() {
+    private void startAnim() {
         stopEraseAnim();
         if (mEraseAnim == null) {
             mEraseAnim = new ValueAnimator();
         }
         mBaseAnim = getAnim();
-        mEraseAnim.setObjectValues(new PointParams(new Point(0, 0),false));
+        mEraseAnim.setObjectValues(new PointParams(new Point(0, 0), false));
         mEraseAnim.setEvaluator(mBaseAnim.getTypeEvaluator());
         mEraseAnim.setDuration(mDuration);
         mEraseAnim.setRepeatMode(mRepeatMode);
@@ -291,6 +329,7 @@ public class EraseImageView extends AppCompatImageView {
 
             @Override
             public void onAnimationEnd(@NonNull Animator animation) {
+                ensureEraseBounds();
             }
 
             @Override
@@ -304,9 +343,19 @@ public class EraseImageView extends AppCompatImageView {
         });
         mEraseAnim.addUpdateListener(animation -> {
             PointParams pointParams = (PointParams) animation.getAnimatedValue();
-            setErasePoint(pointParams.point,pointParams.clipPathMovePoint);
+            setErasePoint(pointParams.point, pointParams.clipPathMovePoint);
         });
         mEraseAnim.start();
+    }
+    public void startEraseAnim() {
+        if (mHandMode){
+            throw new IllegalArgumentException("手动模式下不允许启动擦除动画");
+        }
+        if (mOnLayoutFinish){
+            startAnim();
+        }else {
+            mStartBeforeLayout = true;
+        }
     }
 
     public void stopEraseAnim() {
@@ -332,10 +381,28 @@ public class EraseImageView extends AppCompatImageView {
     }
 
     public boolean isPaused() {
-        if (mEraseAnim != null){
+        if (mEraseAnim != null) {
             return mEraseAnim.isPaused();
         }
         return true;
+    }
+
+    public void addListener(Animator.AnimatorListener listener) {
+        if (mEraseAnim != null){
+            mEraseAnim.addListener(listener);
+        }
+    }
+
+    public void addUpdateListener(ValueAnimator.AnimatorUpdateListener listener) {
+        if (mEraseAnim != null){
+            mEraseAnim.addUpdateListener(listener);
+        }
+    }
+
+    public void addPauseListener(Animator.AnimatorPauseListener listener) {
+        if (mEraseAnim != null){
+            mEraseAnim.addPauseListener(listener);
+        }
     }
 
     private BaseAnim getAnim() {
@@ -491,16 +558,17 @@ public class EraseImageView extends AppCompatImageView {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mShowEraseIcon = true;
-                setErasePoint(point,false);
+                setErasePoint(point, false);
                 mLastPoint = point;
                 break;
             case MotionEvent.ACTION_MOVE:
-                setErasePoint(point,false);
+                setErasePoint(point, false);
                 break;
             case MotionEvent.ACTION_UP:
                 mShowEraseIcon = !mEraseMode;
-                setErasePoint(point,false);
+                setErasePoint(point, false);
                 mLastPoint = null;
+                ensureEraseBounds();
                 break;
         }
 
@@ -511,9 +579,13 @@ public class EraseImageView extends AppCompatImageView {
         return mEraseMode;
     }
 
+    /**
+     * 设置是否记忆擦除路线（是否橡皮擦功能）
+     * @param eraseMode true 则橡皮擦功能 false 则不是
+     */
     public void setEraseMode(boolean eraseMode) {
         this.mEraseMode = eraseMode;
-        if (!eraseMode){
+        if (!eraseMode) {
             mClipPath.reset();
             mLastPoint = null;
         }
@@ -523,6 +595,10 @@ public class EraseImageView extends AppCompatImageView {
         return mHandMode;
     }
 
+    /**
+     * 设置手动模式
+     * @param handMode true 则手动模式，不可使用动画，false 则非手动模式，可使用动画
+     */
     public void setHandMode(boolean handMode) {
         this.mHandMode = handMode;
         mShowEraseIcon = !mHandMode;
@@ -530,5 +606,55 @@ public class EraseImageView extends AppCompatImageView {
             stopEraseAnim();
         }
         invalidate();
+    }
+
+    private void ensureEraseBounds() {
+        if (mClipPath != null && mOnEraseEndListener != null){
+            RectF bounds = getEraseBounds();
+            mOnEraseEndListener.onErasedBounds(bounds);
+        }
+    }
+
+    /**
+     * 获取擦除大致轮廓区域
+     * @return
+     */
+    public RectF getEraseBounds() {
+        if (mClipPath != null){
+            RectF bounds = new RectF();
+            mClipPath.computeBounds(bounds, true);
+            return bounds;
+        }
+        return null;
+    }
+
+    private OnEraseEndListener mOnEraseEndListener;
+
+    public interface OnEraseEndListener {
+        void onErasedBounds(RectF bounds);
+    }
+
+    /**
+     * 设置擦出结束监听，动画结束或手指抬起时回调
+     * @param onEraseEndListener
+     */
+    public void setOnEraseEndListener(OnEraseEndListener onEraseEndListener) {
+        this.mOnEraseEndListener = onEraseEndListener;
+    }
+
+    /**
+     * 擦出全部区域
+     */
+    public void eraseAllArea(){
+        mEraseAllBeforeLayout = false;
+        if (mClipPath != null){
+            if (mOnLayoutFinish){
+                mEraseAllArea = true;
+                mClipPath.addRect(new RectF(0,0,getWidth(),getHeight()),Path.Direction.CW);
+                invalidate();
+            }else {
+                mEraseAllBeforeLayout = true;
+            }
+        }
     }
 }

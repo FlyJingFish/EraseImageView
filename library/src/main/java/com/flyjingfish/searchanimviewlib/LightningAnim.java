@@ -8,7 +8,7 @@ public class LightningAnim extends BaseAnim{
         mTypeEvaluator = new LightningTypeEvaluator();
     }
 
-    private class LightningTypeEvaluator extends SearchTypeEvaluator {
+    private class LightningTypeEvaluator extends EraseTypeEvaluator {
         private float totalLength;
         private float pathWidth;
         private float row1Length;

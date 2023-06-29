@@ -1,5 +1,6 @@
 package com.flyjingfish.searchanimview;
 
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ public class DemoFragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_demo2,container,false);
         eraseImageView = view.findViewById(R.id.eraseView);
         Button eraseBtn = view.findViewById(R.id.btn_erase);
-
+        eraseImageView.setEraseIcon(R.drawable.ic_search,new RectF(0.0625f,0.0625f,0.85f,0.85f));
         RequestOptions mRequestOptions = new RequestOptions().transform(new BlurTransformation(40));
         Glide.with(this).load(R.drawable.demo2).apply(mRequestOptions).into(eraseImageView);
         eraseBtn.setOnClickListener(view1 -> {

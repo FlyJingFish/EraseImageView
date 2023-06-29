@@ -8,7 +8,7 @@ public class CircleAnim extends BaseAnim {
         mTypeEvaluator = new CircleTypeEvaluator();
     }
 
-    private class CircleTypeEvaluator extends SearchTypeEvaluator {
+    private class CircleTypeEvaluator extends EraseTypeEvaluator {
         private float radius;
         private float centerX;
         private float centerY;

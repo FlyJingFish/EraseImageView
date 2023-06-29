@@ -25,13 +25,8 @@
         app:FlyJFish_erase_paddingStart="10dp"
         app:FlyJFish_erase_paddingEnd="16dp"
         app:FlyJFish_erase_radius="50dp"
-        app:FlyJFish_erase_resource="@drawable/ic_search"
         app:FlyJFish_erase_eraseMode="true"
-        app:FlyJFish_erase_handMode="true"
-        app:FlyJFish_erase_resource_percentBottom="0.85"
-        app:FlyJFish_erase_resource_percentLeft="0.0625"
-        app:FlyJFish_erase_resource_percentRight="0.85"
-        app:FlyJFish_erase_resource_percentTop="0.0625">
+        app:FlyJFish_erase_handMode="true">
 
     </com.flyjingfish.searchanimviewlib.EraseImageView>
     <LinearLayout

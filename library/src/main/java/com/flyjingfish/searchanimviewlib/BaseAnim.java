@@ -14,8 +14,8 @@ public class BaseAnim {
     protected float mPaddingBottom;
     protected EraseImageView mView;
     protected float mSearchRadius;
-    protected SearchTypeEvaluator mTypeEvaluator;
-    protected SearchTypeEvaluator getTypeEvaluator() {
+    protected EraseTypeEvaluator mTypeEvaluator;
+    protected EraseTypeEvaluator getTypeEvaluator() {
         return mTypeEvaluator;
     }
 
