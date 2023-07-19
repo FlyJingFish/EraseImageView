@@ -660,6 +660,10 @@ public class EraseImageView extends AppCompatImageView {
         this.mOnEraseEndListeners.remove(onEraseEndListener);
     }
 
+    public void clearOnEraseEndListener() {
+        this.mOnEraseEndListeners.clear();
+    }
+
     /**
      * 擦出全部区域
      */
