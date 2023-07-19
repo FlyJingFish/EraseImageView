@@ -34,6 +34,8 @@ import androidx.lifecycle.LifecycleOwner;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EraseImageView extends AppCompatImageView {
     public static final int INFINITE = ValueAnimator.INFINITE;
@@ -613,6 +615,12 @@ public class EraseImageView extends AppCompatImageView {
             RectF bounds = getEraseBounds();
             mOnEraseEndListener.onErasedBounds(bounds);
         }
+        if (mClipPath != null){
+            RectF bounds = getEraseBounds();
+            for (OnEraseEndListener onEraseEndListener : mOnEraseEndListeners) {
+                onEraseEndListener.onErasedBounds(bounds);
+            }
+        }
     }
 
     /**
@@ -629,6 +637,8 @@ public class EraseImageView extends AppCompatImageView {
     }
 
     private OnEraseEndListener mOnEraseEndListener;
+    private List<OnEraseEndListener> mOnEraseEndListeners = new ArrayList<>();
+
 
     public interface OnEraseEndListener {
         void onErasedBounds(RectF bounds);
@@ -640,6 +650,14 @@ public class EraseImageView extends AppCompatImageView {
      */
     public void setOnEraseEndListener(OnEraseEndListener onEraseEndListener) {
         this.mOnEraseEndListener = onEraseEndListener;
+    }
+
+    public void addOnEraseEndListener(OnEraseEndListener onEraseEndListener) {
+        this.mOnEraseEndListeners.add(onEraseEndListener);
+    }
+
+    public void removeOnEraseEndListener(OnEraseEndListener onEraseEndListener) {
+        this.mOnEraseEndListeners.remove(onEraseEndListener);
     }
 
     /**

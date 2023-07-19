@@ -41,7 +41,7 @@ public class ScratchCardLayout extends RelativeLayout {
         if (mEraseImageView == null) {
             throw new IllegalArgumentException("未找到 EraseImageView ,请添加 EraseImageView");
         }
-        mEraseImageView.setOnEraseEndListener(bounds -> {
+        mEraseImageView.addOnEraseEndListener(bounds -> {
             if (mScratchViewRectF.left >= bounds.left && mScratchViewRectF.top >= bounds.top && mScratchViewRectF.right <= bounds.right && mScratchViewRectF.bottom <= bounds.bottom) {
                 if (mOnScratchListener != null) {
                     mOnScratchListener.onScratchOff();
