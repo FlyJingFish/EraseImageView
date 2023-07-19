@@ -29,7 +29,7 @@
 
 ```gradle
     dependencies {
-        implementation 'com.github.FlyJingFish:EraseImageView:1.0.4'
+        implementation 'com.github.FlyJingFish:EraseImageView:1.0.5'
     }
 ```
 ## 第三步，使用说明
