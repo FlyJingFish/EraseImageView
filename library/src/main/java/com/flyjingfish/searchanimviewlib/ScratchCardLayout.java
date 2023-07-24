@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
@@ -41,9 +43,10 @@ public class ScratchCardLayout extends RelativeLayout {
             throw new IllegalArgumentException("未找到 EraseImageView ,请添加 EraseImageView");
         }
         mEraseImageView.setOnEraseEndListener(bounds -> {
+            float[] xy = getLineXY(mScratchView);
             final RectF scratchViewRectF = new RectF();
-            scratchViewRectF.left = mScratchView.getLeft();
-            scratchViewRectF.top = mScratchView.getTop();
+            scratchViewRectF.left = xy[0];
+            scratchViewRectF.top = xy[1];
             scratchViewRectF.right = scratchViewRectF.left+mScratchView.getWidth();
             scratchViewRectF.bottom = scratchViewRectF.top+mScratchView.getHeight();
             if (scratchViewRectF.left >= bounds.left && scratchViewRectF.top >= bounds.top && scratchViewRectF.right <= bounds.right && scratchViewRectF.bottom <= bounds.bottom) {
@@ -57,6 +60,26 @@ public class ScratchCardLayout extends RelativeLayout {
         });
     }
 
+    private float[] getLineXY(View view) {
+        if (view.getParent() instanceof ScratchCardLayout) {
+            return new float[]{view.getX(), view.getY()};
+        } else {
+            float[] xy = new float[2];
+            xy[0] = view.getX();
+            xy[1] = view.getY();
+            return getLineXY(((ViewGroup) view.getParent()), xy);
+        }
+    }
+    private float[] getLineXY(View view, float[] xy) {
+        ViewParent viewParent = view.getParent();
+        xy[0] += view.getX();
+        xy[1] += view.getY();
+        if (viewParent instanceof ScratchCardLayout) {
+            return xy;
+        } else {
+            return getLineXY(((ViewGroup) viewParent), xy);
+        }
+    }
     public View getScratchView() {
         return mScratchView;
     }
