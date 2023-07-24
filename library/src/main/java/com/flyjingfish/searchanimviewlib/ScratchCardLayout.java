@@ -10,8 +10,7 @@ import android.widget.RelativeLayout;
 public class ScratchCardLayout extends RelativeLayout {
     private EraseImageView mEraseImageView;
     private View mScratchView;
-    private boolean mOnLayoutFinish;
-    private final RectF mScratchViewRectF = new RectF();
+
     private OnScratchListener mOnScratchListener;
     private boolean mIsEraseAllAreaAfterScratchOff;
 
@@ -42,7 +41,12 @@ public class ScratchCardLayout extends RelativeLayout {
             throw new IllegalArgumentException("未找到 EraseImageView ,请添加 EraseImageView");
         }
         mEraseImageView.setOnEraseEndListener(bounds -> {
-            if (mScratchViewRectF.left >= bounds.left && mScratchViewRectF.top >= bounds.top && mScratchViewRectF.right <= bounds.right && mScratchViewRectF.bottom <= bounds.bottom) {
+            final RectF scratchViewRectF = new RectF();
+            scratchViewRectF.left = mScratchView.getLeft();
+            scratchViewRectF.top = mScratchView.getTop();
+            scratchViewRectF.right = scratchViewRectF.left+mScratchView.getWidth();
+            scratchViewRectF.bottom = scratchViewRectF.top+mScratchView.getHeight();
+            if (scratchViewRectF.left >= bounds.left && scratchViewRectF.top >= bounds.top && scratchViewRectF.right <= bounds.right && scratchViewRectF.bottom <= bounds.bottom) {
                 if (mOnScratchListener != null) {
                     mOnScratchListener.onScratchOff();
                 }
@@ -51,12 +55,6 @@ public class ScratchCardLayout extends RelativeLayout {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-        mOnLayoutFinish = true;
     }
 
     public View getScratchView() {
@@ -69,25 +67,6 @@ public class ScratchCardLayout extends RelativeLayout {
      */
     public void setScratchView(View scratchView) {
         this.mScratchView = scratchView;
-        ViewTreeObserver.OnGlobalLayoutListener listener = new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                int[] scratchViewShowRect = new int[2];
-                mScratchView.getLocationOnScreen(scratchViewShowRect);
-                int[] eraseImageViewShowRect = new int[2];
-                mEraseImageView.getLocationOnScreen(eraseImageViewShowRect);
-                int left = scratchViewShowRect[0] - eraseImageViewShowRect[0];
-                int top = scratchViewShowRect[1] - eraseImageViewShowRect[1];
-                mScratchViewRectF.set(left, top, left + mScratchView.getWidth(), top + mScratchView.getHeight());
-            }
-        };
-        if (mOnLayoutFinish) {
-            listener.onGlobalLayout();
-        } else {
-            getViewTreeObserver().addOnGlobalLayoutListener(listener);
-        }
-
     }
 
     public boolean isEraseAllAreaAfterScratchOff() {
