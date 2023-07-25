@@ -565,6 +565,7 @@ public class EraseImageView extends AppCompatImageView {
                 break;
             case MotionEvent.ACTION_MOVE:
                 setErasePoint(point, false);
+                ensureMoveEraseBounds();
                 break;
             case MotionEvent.ACTION_UP:
                 mShowEraseIcon = !mEraseMode;
@@ -615,10 +616,19 @@ public class EraseImageView extends AppCompatImageView {
             RectF bounds = getEraseBounds();
             mOnEraseEndListener.onErasedBounds(bounds);
         }
-        if (mClipPath != null){
+        if (mClipPath != null && mOnEraseEndListeners.size() > 0){
             RectF bounds = getEraseBounds();
             for (OnEraseEndListener onEraseEndListener : mOnEraseEndListeners) {
                 onEraseEndListener.onErasedBounds(bounds);
+            }
+        }
+    }
+
+    private void ensureMoveEraseBounds() {
+        if (mClipPath != null && mOnEraseMoveListeners.size() > 0){
+            RectF bounds = getEraseBounds();
+            for (OnEraseMoveListener onEraseMoveListener : mOnEraseMoveListeners) {
+                onEraseMoveListener.onErasedBounds(bounds);
             }
         }
     }
@@ -638,9 +648,14 @@ public class EraseImageView extends AppCompatImageView {
 
     private OnEraseEndListener mOnEraseEndListener;
     private List<OnEraseEndListener> mOnEraseEndListeners = new ArrayList<>();
+    private List<OnEraseMoveListener> mOnEraseMoveListeners = new ArrayList<>();
 
 
     public interface OnEraseEndListener {
+        void onErasedBounds(RectF bounds);
+    }
+
+    public interface OnEraseMoveListener {
         void onErasedBounds(RectF bounds);
     }
 
@@ -662,6 +677,18 @@ public class EraseImageView extends AppCompatImageView {
 
     public void clearOnEraseEndListener() {
         this.mOnEraseEndListeners.clear();
+    }
+
+    public void addOnEraseMoveListener(OnEraseMoveListener onEraseMoveListener) {
+        this.mOnEraseMoveListeners.add(onEraseMoveListener);
+    }
+
+    public void removeOnEraseMoveListener(OnEraseMoveListener onEraseMoveListener) {
+        this.mOnEraseMoveListeners.remove(onEraseMoveListener);
+    }
+
+    public void clearOnEraseMoveListener() {
+        this.mOnEraseMoveListeners.clear();
     }
 
     /**

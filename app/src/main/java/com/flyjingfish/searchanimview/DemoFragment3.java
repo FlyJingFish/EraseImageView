@@ -1,5 +1,6 @@
 package com.flyjingfish.searchanimview;
 
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,12 @@ public class DemoFragment3 extends Fragment {
                 eraseImageView.resetErasePath();
             });
         }
+        eraseImageView.addOnEraseMoveListener(new EraseImageView.OnEraseMoveListener() {
+            @Override
+            public void onErasedBounds(RectF bounds) {
+
+            }
+        });
         visibleBtn.setOnCheckedChangeListener((buttonView, isChecked) -> scratchCardLayout.setEraseAllAreaAfterScratchOff(isChecked));
         scratchCardLayout.setScratchView(giveTv);
         scratchCardLayout.setOnScratchListener(new ScratchCardLayout.OnScratchListener() {
